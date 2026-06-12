@@ -6,6 +6,9 @@ A super simple FastAPI application that allows students to view and sign up for 
 
 - View all available extracurricular activities
 - Sign up for activities
+- Unregister from activities
+- Server-side capacity enforcement to prevent over-enrollment
+- Persistent SQLite storage (`src/activities.db`) so data survives restarts
 
 ## Getting Started
 
@@ -34,17 +37,17 @@ A super simple FastAPI application that allows students to view and sign up for 
 
 ## Data Model
 
-The application uses a simple data model with meaningful identifiers:
+The application uses a simple SQLite-backed data model with meaningful identifiers:
 
 1. **Activities** - Uses activity name as identifier:
 
    - Description
    - Schedule
    - Maximum number of participants allowed
-   - List of student emails who are signed up
+2. **Registrations** - Composite identifier `(activity_name, email)`:
 
-2. **Students** - Uses email as identifier:
-   - Name
-   - Grade level
+   - Student email
+   - Activity name
+   - Registration timestamp
 
-All data is stored in memory, which means data will be reset when the server restarts.
+All data is persisted to SQLite, so it is retained across server restarts.
